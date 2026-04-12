@@ -1,0 +1,22 @@
+{
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".tsbuildinfo"]
+    },
+    "test": {
+      "cache": false
+    },
+    "test:coverage": {
+      "cache": false
+    },
+    "lint": {},
+    "lint:fix": {
+      "cache": false
+    },
+    "lint:format": {
+      "cache": false
+    },
+    "typecheck": {}
+  }
+}

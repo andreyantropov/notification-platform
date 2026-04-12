@@ -1,0 +1,66 @@
+{
+  "name": "notification-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Распределенная платформа уведомлений: отказоустойчивая доставка сообщений через Bitrix24 и Email с использованием RabbitMQ и OpenTelemetry.",
+  "license": "MIT",
+  "author": {
+    "name": "Andrey Antropov",
+    "email": "andreyantropov.1994@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Andrey Antropov",
+      "email": "andrey.antropov@planarchel.ru"
+    }
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "notification-platform",
+    "bitrix24",
+    "email",
+    "delivery-strategies",
+    "multi-channel",
+    "message-routing"
+  ],
+  "packageManager": "pnpm@10.28.1",
+  "workspaces": [
+    "core",
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "lint:format": "turbo run lint:format",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.1",
+    "@typescript-eslint/parser": "^8.58.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-perfectionist": "^5.8.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "turbo": "^2.9.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.1",
+    "vitest": "^3.2.4"
+  }
+}
+

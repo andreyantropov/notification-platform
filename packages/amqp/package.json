@@ -1,0 +1,46 @@
+{
+  "name": "@notification-platform/amqp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Инфраструктурный слой AMQP: отказоустойчивое управление соединениями, каналами и интеграция с телеметрией.",
+  "license": "MIT",
+  "author": {
+    "name": "Andrey Antropov",
+    "email": "andreyantropov.1994@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Andrey Antropov",
+      "email": "andrey.antropov@planarchel.ru"
+    }
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=9.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --splitting --sourcemap --clean --minify --treeshake --dts",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:format": "prettier . --write",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@notification-platform/telemetry": "workspace:*",
+    "@cloudamqp/amqp-client": "^3.3.2"
+  }
+}
