@@ -1,10 +1,10 @@
 import {
   createBroker,
-  withLoggingDecorator as withBrokerLoggingDecorator,
+  withLogging as withBrokerLogging,
 } from "@notification-platform/amqp";
 import {
   createServer,
-  withLoggingDecorator as withServerLoggingDecorator,
+  withLogging as withServerLogging,
 } from "@notification-platform/http";
 import {
   createLogger,
@@ -21,10 +21,10 @@ import {
   createMockEmailChannel,
 } from "../../../infrastructure/channels/index.js";
 import {
-  withRateLimitDecorator as withChannelLimitDecorator,
-  withLoggingDecorator as withChannelLoggingDecorator,
-  withMetricsDecorator as withChannelMetricsDecorator,
-  withTracingDecorator as withChannelTracingDecorator,
+  withRateLimit as withChannelLimit,
+  withLogging as withChannelLogging,
+  withMetrics as withChannelMetrics,
+  withTracing as withChannelTracing,
 } from "../../../infrastructure/decorators/Channel/index.js";
 import { createHealthReporter } from "../../../infrastructure/health/index.js";
 import { type Container } from "../interfaces/index.js";
@@ -43,15 +43,15 @@ export const registerInfrastracture = (
               timeoutMs: env.BITRIX_TIMEOUT_MS,
             })
           : createMockBitrixChannel();
-      const bitrixChannelWithLogging = withChannelLoggingDecorator({
+      const bitrixChannelWithLogging = withChannelLogging({
         channel: bitrixChannel,
         logger,
       });
-      const bitrixChannelWithMetrics = withChannelMetricsDecorator({
+      const bitrixChannelWithMetrics = withChannelMetrics({
         channel: bitrixChannelWithLogging,
         meter,
       });
-      const bitrixChannelWithRateLimit = withChannelLimitDecorator(
+      const bitrixChannelWithRateLimit = withChannelLimit(
         { channel: bitrixChannelWithMetrics },
         {
           concurrency: env.BITRIX_CHANNEL_CONCURRENCY,
@@ -79,19 +79,19 @@ export const registerInfrastracture = (
               socketTimeoutMs: env.EMAIL_CHANNEL_SOCKET_TIMEOUT_MS,
             })
           : createMockEmailChannel();
-      const emailChannelWithTracing = withChannelTracingDecorator({
+      const emailChannelWithTracing = withChannelTracing({
         channel: emailChannel,
         tracer,
       });
-      const emailChannelWithLogging = withChannelLoggingDecorator({
+      const emailChannelWithLogging = withChannelLogging({
         channel: emailChannelWithTracing,
         logger,
       });
-      const emailChannelWithMetrics = withChannelMetricsDecorator({
+      const emailChannelWithMetrics = withChannelMetrics({
         channel: emailChannelWithLogging,
         meter,
       });
-      const emailChannelWithRateLimit = withChannelLimitDecorator(
+      const emailChannelWithRateLimit = withChannelLimit(
         { channel: emailChannelWithMetrics },
         {
           concurrency: env.EMAIL_CHANNEL_CONCURRENCY,
@@ -133,7 +133,7 @@ export const registerInfrastracture = (
 
     broker: asFunction(({ env, logger }) => {
       const broker = createBroker({ url: env.BROKER_URL });
-      const brokerWithLogging = withBrokerLoggingDecorator({ broker, logger });
+      const brokerWithLogging = withBrokerLogging({ broker, logger });
 
       return brokerWithLogging;
     }).singleton(),
@@ -143,7 +143,7 @@ export const registerInfrastracture = (
         { preHandlers, router, postHandlers },
         { port: env.SERVICE_PORT },
       );
-      const serverWithLogging = withServerLoggingDecorator({ server, logger });
+      const serverWithLogging = withServerLogging({ server, logger });
 
       return serverWithLogging;
     }).singleton(),

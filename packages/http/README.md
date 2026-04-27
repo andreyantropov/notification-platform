@@ -19,13 +19,10 @@
 
 Фабричная функция `createServer` принимает зависимости (массивы pre/post handlers, роутер) и конфигурацию. Она возвращает объект с методами `start` и `shutdown`. Сервер автоматически регистрирует переданные обработчики в указанном порядке.
 
-Для логирования событий запуска и остановки сервера рекомендуется использовать декоратор `withLoggingDecorator`.
+Для логирования событий запуска и остановки сервера рекомендуется использовать декоратор `withLogging`.
 
 ```typescript
-import {
-  createServer,
-  withLoggingDecorator,
-} from "@notification-platform/http";
+import { createServer, withLogging } from "@notification-platform/http";
 import { createLogger } from "@notification-platform/telemetry";
 import express from "express";
 import { router } from "./routes.js";
@@ -42,7 +39,7 @@ const serverDependencies = {
 const rawServer = createServer(serverDependencies, serverConfig);
 const logger = createLogger();
 
-const server = withLoggingDecorator({ rawServer, logger }); // Добавляем логирование жизненного цикла
+const server = withLogging({ rawServer, logger }); // Добавляем логирование жизненного цикла
 
 // Запуск
 await server.start();

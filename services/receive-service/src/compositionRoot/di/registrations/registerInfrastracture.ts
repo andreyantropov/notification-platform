@@ -1,10 +1,10 @@
 import {
   createBroker,
-  withLoggingDecorator as withBrokerLoggingDecorator,
+  withLogging as withBrokerLogging,
 } from "@notification-platform/amqp";
 import {
   createServer,
-  withLoggingDecorator as withServerLoggingDecorator,
+  withLogging as withServerLogging,
 } from "@notification-platform/http";
 import {
   createLogger,
@@ -16,9 +16,9 @@ import { asFunction, type AwilixContainer } from "awilix";
 import { createPublisher } from "../../../infrastructure/amqp/index.js";
 import { createIdGenerator } from "../../../infrastructure/crypto/index.js";
 import {
-  withLoggingDecorator as withPublisherLoggingDecorator,
-  withMetricsDecorator as withPublisherMetricsDecorator,
-  withTracingDecorator as withPublisherTracingDecorator,
+  withLogging as withPublisherLogging,
+  withMetrics as withPublisherMetrics,
+  withTracing as withPublisherTracing,
 } from "../../../infrastructure/decorators/Publisher/index.js";
 import { createHealthReporter } from "../../../infrastructure/health/index.js";
 import { type Container } from "../interfaces/index.js";
@@ -37,15 +37,15 @@ export const registerInfrastracture = (
           timeoutMs: env.PUBLISHER_TIMEOUT_MS,
         },
       );
-      const publisherWithTracing = withPublisherTracingDecorator({
+      const publisherWithTracing = withPublisherTracing({
         publisher: publisher,
         tracer,
       });
-      const publisherWithLogging = withPublisherLoggingDecorator({
+      const publisherWithLogging = withPublisherLogging({
         publisher: publisherWithTracing,
         logger,
       });
-      const publisherWithMetrics = withPublisherMetricsDecorator({
+      const publisherWithMetrics = withPublisherMetrics({
         publisher: publisherWithLogging,
         meter,
       });
@@ -75,7 +75,7 @@ export const registerInfrastracture = (
 
     broker: asFunction(({ env, logger }) => {
       const broker = createBroker({ url: env.BROKER_URL });
-      const brokerWithLogging = withBrokerLoggingDecorator({ broker, logger });
+      const brokerWithLogging = withBrokerLogging({ broker, logger });
 
       return brokerWithLogging;
     }).singleton(),
@@ -85,7 +85,7 @@ export const registerInfrastracture = (
         { preHandlers, router, postHandlers },
         { port: env.SERVICE_PORT },
       );
-      const serverWithLogging = withServerLoggingDecorator({ server, logger });
+      const serverWithLogging = withServerLogging({ server, logger });
 
       return serverWithLogging;
     }).singleton(),

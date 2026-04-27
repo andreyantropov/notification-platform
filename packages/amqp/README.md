@@ -59,20 +59,17 @@ await broker.shutdown();
 
 ### 3. Логирование событий
 
-Для интеграции с системой мониторинга доступен декоратор `withLoggingDecorator`. Он оборачивает экземпляр брокера, автоматически логируя ключевые события жизненного цикла (подключение, ошибки, создание каналов) через стандартный интерфейс логгера платформы.
+Для интеграции с системой мониторинга доступен декоратор `withLogging`. Он оборачивает экземпляр брокера, автоматически логируя ключевые события жизненного цикла (подключение, ошибки, создание каналов) через стандартный интерфейс логгера платформы.
 
 ```typescript
-import {
-  createBroker,
-  withLoggingDecorator,
-} from "@notification-platform/amqp";
+import { createBroker, withLogging } from "@notification-platform/amqp";
 import { createLogger } from "@notification-platform/telemetry";
 
 const rawBroker = createBroker({ url: "amqp://guest:guest@localhost:5672" });
 const logger = createLogger();
 
 // Оборачиваем брокера для добавления логирования
-const broker = withLoggingDecorator({ rawBroker, logger });
+const broker = withLogging({ rawBroker, logger });
 
 await broker.start();
 // В логах появится запись о successful connection с trace_id (если контекст активен)

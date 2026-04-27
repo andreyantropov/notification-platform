@@ -10,14 +10,14 @@ import {
   createSendNotificationUseCase,
 } from "../../../application/useCases/index.js";
 import {
-  withLoggingDecorator as withDeliveryServiceLoggingDecorator,
-  withMetricsDecorator as withDeliveryServiceMetricsDecorator,
+  withLogging as withDeliveryServiceLogging,
+  withMetrics as withDeliveryServiceMetrics,
 } from "../../../infrastructure/decorators/DeliveryService/index.js";
 import {
-  withLoggingDecorator as withSendNotificationUseCaseLoggingDecorator,
-  withMetricsDecorator as withSendNotificationUseCaseMetricsDecorator,
-  withRetryDecorator as withSendNotificationUseCaseRetryDecorator,
-  withTracingDecorator as withSendNotificationUseCaseTracingDecorator,
+  withLogging as withSendNotificationUseCaseLogging,
+  withMetrics as withSendNotificationUseCaseMetrics,
+  withRetry as withSendNotificationUseCaseRetry,
+  withTracing as withSendNotificationUseCaseTracing,
 } from "../../../infrastructure/decorators/SendNotificationUseCase/index.js";
 import { type Container } from "../interfaces/Container.js";
 
@@ -28,11 +28,11 @@ export const registerApplication = (container: AwilixContainer<Container>) => {
         const deliveryService = createDeliveryService({
           channels: [bitrixChannel, emailChannel],
         });
-        const deliveryServiceWithLogging = withDeliveryServiceLoggingDecorator({
+        const deliveryServiceWithLogging = withDeliveryServiceLogging({
           deliveryService: deliveryService,
           logger,
         });
-        const deliveryServiceWithMetrics = withDeliveryServiceMetricsDecorator({
+        const deliveryServiceWithMetrics = withDeliveryServiceMetrics({
           deliveryService: deliveryServiceWithLogging,
           meter,
         });
@@ -51,21 +51,21 @@ export const registerApplication = (container: AwilixContainer<Container>) => {
           deliveryService,
         });
         const sendNotificationUseCaseWithRetry =
-          withSendNotificationUseCaseRetryDecorator({
+          withSendNotificationUseCaseRetry({
             sendNotificationUseCase: sendNotificationUseCase,
           });
         const sendNotificationUseCaseWithTracing =
-          withSendNotificationUseCaseTracingDecorator({
+          withSendNotificationUseCaseTracing({
             sendNotificationUseCase: sendNotificationUseCaseWithRetry,
             tracer,
           });
         const sendNotificationUseCaseWithLogging =
-          withSendNotificationUseCaseLoggingDecorator({
+          withSendNotificationUseCaseLogging({
             sendNotificationUseCase: sendNotificationUseCaseWithTracing,
             logger,
           });
         const sendNotificationUseCaseWithMetrics =
-          withSendNotificationUseCaseMetricsDecorator({
+          withSendNotificationUseCaseMetrics({
             sendNotificationUseCase: sendNotificationUseCaseWithLogging,
             meter,
           });

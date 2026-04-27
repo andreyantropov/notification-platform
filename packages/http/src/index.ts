@@ -1,6 +1,6 @@
 export {
-  type LoggingDecoratorDependencies,
-  withLoggingDecorator,
+  type LoggingDependencies,
+  withLogging,
 } from "./decorators/Server/index.js";
 export { type UserContext } from "./interfaces/index.js";
 export {

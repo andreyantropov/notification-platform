@@ -12,16 +12,16 @@ import {
   createReceiveNotificationUseCase,
 } from "../../../application/useCases/index.js";
 import {
-  withLoggingDecorator as withDispatchServiceLoggingDecorator,
-  withMetricsDecorator as withDispatchServiceMetricsDecorator,
+  withLogging as withDispatchServiceLogging,
+  withMetrics as withDispatchServiceMetrics,
 } from "../../../infrastructure/decorators/DispatchService/index.js";
 import {
-  withLoggingDecorator as withReceiveNotificationBatchLoggingDecorator,
-  withMetricsDecorator as withReceiveNotificationBatchMetricsDecorator,
+  withLogging as withReceiveNotificationBatchLogging,
+  withMetrics as withReceiveNotificationBatchMetrics,
 } from "../../../infrastructure/decorators/ReceiveNotificationBatchUseCase/index.js";
 import {
-  withLoggingDecorator as withReceiveNotificationUseCaseLoggingDecorator,
-  withMetricsDecorator as withReceiveNotificationUseCaseMetricsDecorator,
+  withLogging as withReceiveNotificationUseCaseLogging,
+  withMetrics as withReceiveNotificationUseCaseMetrics,
 } from "../../../infrastructure/decorators/ReceiveNotificationUseCase/index.js";
 import { type Container } from "../interfaces/Container.js";
 
@@ -35,11 +35,11 @@ export const registerApplication = (container: AwilixContainer<Container>) => {
       const dispatchService = createDispatchService({
         publisher,
       });
-      const dispatchServiceWithLogging = withDispatchServiceLoggingDecorator({
+      const dispatchServiceWithLogging = withDispatchServiceLogging({
         dispatchService: dispatchService,
         logger,
       });
-      const dispatchServiceWithMetrics = withDispatchServiceMetricsDecorator({
+      const dispatchServiceWithMetrics = withDispatchServiceMetrics({
         dispatchService: dispatchServiceWithLogging,
         meter,
       });
@@ -58,12 +58,12 @@ export const registerApplication = (container: AwilixContainer<Container>) => {
           dispatchService,
         });
         const receiveNotificationUseCaseWithLogging =
-          withReceiveNotificationUseCaseLoggingDecorator({
+          withReceiveNotificationUseCaseLogging({
             receiveNotificationUseCase: receiveNotificationUseCase,
             logger,
           });
         const receiveNotificationUseCaseWithMetrics =
-          withReceiveNotificationUseCaseMetricsDecorator({
+          withReceiveNotificationUseCaseMetrics({
             receiveNotificationUseCase: receiveNotificationUseCaseWithLogging,
             meter,
           });
@@ -80,12 +80,12 @@ export const registerApplication = (container: AwilixContainer<Container>) => {
             dispatchService,
           });
         const receiveNotificationBatchUseCaseWithLogging =
-          withReceiveNotificationBatchLoggingDecorator({
+          withReceiveNotificationBatchLogging({
             receiveNotificationBatchUseCase: receiveNotificationBatchUseCase,
             logger,
           });
         const receiveNotificationBatchUseCaseWithMetrics =
-          withReceiveNotificationBatchMetricsDecorator({
+          withReceiveNotificationBatchMetrics({
             receiveNotificationBatchUseCase:
               receiveNotificationBatchUseCaseWithLogging,
             meter,
